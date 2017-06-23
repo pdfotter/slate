@@ -5,7 +5,7 @@ language_tabs:
   - shell
 
 toc_footers:
-  - <a href='https://www.pdfotter.com/settings#api-keys'>Get an API Key</a>
+  - <a href='https://www.pdfotter.com/account#api-keys'>Get an API Key</a>
 
 includes:
 
