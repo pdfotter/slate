@@ -16,7 +16,7 @@ search: true
 
 Welcome to the PDF Otter API. You can use this API to fill in templates created in your [Dashboard](https://www.pdfotter.com/pdf_templates).
 
-We are working on ways to make working with PDF Otter faster and simpler. Feel free to reach out to us if you have any feedback or suggestions: [pdf.otter@gmail.com](mailto:pdfotter@gmail.com).
+We are working on ways to make working with PDF Otter faster and simpler. Feel free to reach out to us if you have any feedback or suggestions: [hello@pdfotter.com](mailto:hello@pdfotter.com).
 
 # Authentication
 
