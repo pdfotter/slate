@@ -91,7 +91,7 @@ This endpoint retrieves all PDF Templates associated with the account.
 
 # PDF Files
 
-## Create a PDF File
+## Create PDF File
 
 ```shell
 curl https://www.pdfotter.com/api/v1/pdf_files \
@@ -136,7 +136,7 @@ data | Data to fill in the template with. If no data is provided, the generated 
   A download url won't be available immediately after creating or updating a file. This is because the file's PDF is generated in a background job. A share URL will always be provided. The share URL displays the loading status or the PDF as soon as it has been generated. Share this URL with your users or embed it in an iframe.
 </aside>
 
-## Get a PDF File
+## Get PDF File
 
 ```shell
 curl https://www.pdfotter.com/api/v1/pdf_files/fil_b2c \
@@ -174,7 +174,7 @@ ID | The ID of the file to retrieve (required)
   The download URL is only available if the file's status is <code>completed</code>. Possible statuses are <code>pending</code>, <code>processing</code>, <code>completed</code>, and <code>failed</code>.
 </aside>
 
-## Update a PDF File
+## Update PDF File
 
 ```shell
 curl -X PUT https://www.pdfotter.com/api/v1/pdf_files/fil_b2c \
@@ -220,6 +220,30 @@ data | Data to fill in your template with. If no data is provided, an empty temp
 <aside class="notice">
   Updating a file increments the version number.
 </aside>
+
+## Delete PDF File
+
+```shell
+curl -X DELETE https://www.pdfotter.com/api/v1/pdf_files/fil_1c3 \
+  -H "Authorization: Bearer test_yd61q"
+```
+
+> The command above returns no content
+
+```json
+```
+
+This endpoint deletes the specified file. If successful, a 204 (no content) response code is returned.
+
+### HTTP Request
+
+`DELETE https://www.pdfotter.com/api/v1/pdf_files/<ID>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+ID | ID of the file to delete (required)
 
 ## Get All PDF Files
 
