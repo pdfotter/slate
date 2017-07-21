@@ -303,7 +303,7 @@
 
 <h1 id="pdf-files">PDF Files</h1>
 
-<h2 id="create-a-pdf-file">Create a PDF File</h2>
+<h2 id="create-pdf-file">Create PDF File</h2>
 <pre class="highlight shell tab-shell"><code>curl https://www.pdfotter.com/api/v1/pdf_files <span class="se">\</span>
   -H <span class="s2">"Authorization: Bearer test_yd61q"</span> <span class="se">\</span>
   -d <span class="nv">pdf_template</span><span class="o">=</span>tem_1c3 <span class="se">\</span>
@@ -358,7 +358,7 @@
   A download url won&rsquo;t be available immediately after creating or updating a file. This is because the file&rsquo;s PDF is generated in a background job. A share URL will always be provided. The share URL displays the loading status or the PDF as soon as it has been generated. Share this URL with your users or embed it in an iframe.
 </aside>
 
-<h2 id="get-a-pdf-file">Get a PDF File</h2>
+<h2 id="get-pdf-file">Get PDF File</h2>
 <pre class="highlight shell tab-shell"><code>curl https://www.pdfotter.com/api/v1/pdf_files/fil_b2c <span class="se">\</span>
   -H <span class="s2">"Authorization: Bearer test_yd61q"</span>
 </code></pre>
@@ -400,7 +400,7 @@
   The download URL is only available if the file&rsquo;s status is <code>completed</code>. Possible statuses are <code>pending</code>, <code>processing</code>, <code>completed</code>, and <code>failed</code>.
 </aside>
 
-<h2 id="update-a-pdf-file">Update a PDF File</h2>
+<h2 id="update-pdf-file">Update PDF File</h2>
 <pre class="highlight shell tab-shell"><code>curl -X PUT https://www.pdfotter.com/api/v1/pdf_files/fil_b2c <span class="se">\</span>
   -H <span class="s2">"Authorization: Bearer test_yd61q"</span> <span class="se">\</span>
   -d <span class="nv">name</span><span class="o">=</span><span class="s2">"Mariusz Lapinski's Subscription Agreement - Complete"</span> <span class="se">\</span>
@@ -456,6 +456,34 @@
 <aside class="notice">
   Updating a file increments the version number.
 </aside>
+
+<h2 id="delete-pdf-file">Delete PDF File</h2>
+<pre class="highlight shell tab-shell"><code>curl -X DELETE https://www.pdfotter.com/api/v1/pdf_files/fil_1c3 <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer test_yd61q"</span>
+</code></pre>
+<blockquote>
+<p>The command above returns no content</p>
+</blockquote>
+<pre class="highlight json tab-json"><code></code></pre>
+<p>This endpoint deletes the specified file. If successful, a 204 (no content) response code is returned.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">DELETE https://www.pdfotter.com/api/v1/pdf_files/&lt;ID&gt;</code></p>
+
+<h3 id="url-parameters">URL Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ID</td>
+<td>ID of the file to delete (required)</td>
+</tr>
+</tbody></table>
 
 <h2 id="get-all-pdf-files">Get All PDF Files</h2>
 <pre class="highlight shell tab-shell"><code>curl -G https://www.pdfotter.com/api/v1/pdf_files <span class="se">\</span>
