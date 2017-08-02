@@ -107,7 +107,7 @@ curl -X POST https://www.pdfotter.com/api/v1/pdf_files.pdf \
 
 > The above command saves a PDF document to `tem_1c3_filled_in.pdf`. Because `save_result=false`, it won't be saved on PDF Otter for later use.
 
-This endpoint creates a PDF File - fills in a PDF Template - with the data provided. It responds with the binary PDF file so you can store it on your end. PDF Otter won't store the file if you set the `save_result` flag to `false`. If you choose to save the result, it will be available in your dashboard and can be made public to share with your users.
+This endpoint creates a PDF File - fills in a PDF Template - with the data provided. It responds with the binary PDF file so you can store it on your end. PDF Otter won't store the file if you set the `save_result` flag to `false`. If you choose to let PDF Otter save the result, it will be available in your dashboard and can be made public to share with your users.
 
 ### HTTP Request
 
