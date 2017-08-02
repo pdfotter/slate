@@ -155,7 +155,7 @@ Filling in and receiving a PDF binary may take a few hundred milliseconds. If yo
 
 ### HTTP Request
 
-`POST https://www.pdfotter.com/api/v1/pdf_files`
+`POST https://www.pdfotter.com/api/v1/pdf_files.json`
 
 ### Parameters
 
