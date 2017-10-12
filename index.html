@@ -245,6 +245,50 @@
 
 <h1 id="pdf-templates">PDF Templates</h1>
 
+<h2 id="create-a-pdf-template">Create a PDF Template</h2>
+<pre class="highlight shell tab-shell"><code>curl https://www.pdfotter.com/api/v1/pdf_templates <span class="se">\</span>
+  -u test_apikey123: <span class="se">\</span>
+  -F <span class="nv">file</span><span class="o">=</span>@/path/to/template.pdf <span class="se">\</span>
+  -F <span class="nv">name</span><span class="o">=</span><span class="s2">"Subscription Agreement"</span>
+</code></pre>
+<blockquote>
+<p>The command above returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tem_1c3"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Subscription Agreement"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"processing_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pending"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"processing_progress_percentage"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint creates a PDF Template from the file in the request. The PDF template needs to be processed before it is filled in or editted. The <code class="prettyprint">processing_status</code> and <code class="prettyprint">processing_progress_percentage</code> attributes in the response give you an idea of the progress. Processing times depend on the size of the PDF template&rsquo;s file, but it usually takes a few seconds. During processing, new fields may be detected and added to the template.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST https://www.pdfotter.com/api/v1/pdf_templates</code></p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>file</td>
+<td>file</td>
+<td>The PDF file to create a template from (required)</td>
+</tr>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>The template&rsquo;s name (not required)</td>
+</tr>
+</tbody></table>
+
 <h2 id="get-a-pdf-template">Get a PDF Template</h2>
 <pre class="highlight shell tab-shell"><code>curl https://www.pdfotter.com/api/v1/pdf_templates/tem_1c3 <span class="se">\</span>
   -u test_apikey123:
@@ -254,10 +298,17 @@
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tem_1c3"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Subscription Agreement"</span><span class="w">
+  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Subscription Agreement"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"processing_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"completed"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"processing_progress_percentage"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="s2">"page_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user_name"</span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="s2">"page_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user_signature"</span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="s2">"page_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user_signed_at"</span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>This endpoint retrieves a single PDF Template&rsquo;s details. For now, templates can only be created and configured through the <a href="https://www.pdfotter.com/pdf_templates">dashboard</a>. Template IDs can be found there as well.</p>
+<p>This endpoint retrieves a PDF Template&rsquo;s details. For now, templates can only be created and configured through the <a href="https://www.pdfotter.com/pdf_templates">dashboard</a>. Template IDs can be found there as well.</p>
 
 <h3 id="http-request">HTTP Request</h3>
 
@@ -274,6 +325,110 @@
 <tr>
 <td>ID</td>
 <td>The ID of the template to retrieve (required)</td>
+</tr>
+</tbody></table>
+
+<h2 id="fill-in-a-pdf-template">Fill In a PDF Template</h2>
+<pre class="highlight shell tab-shell"><code>curl -X POST https://www.pdfotter.com/api/v1/pdf_templates/tem_1c3/fill <span class="se">\</span>
+  -u test_apikey123: <span class="se">\</span>
+  -d data[user_name]<span class="o">=</span><span class="s2">"Mariusz Lapinski"</span> <span class="se">\</span>
+  -d data[user_signature]<span class="o">=</span><span class="s2">"Mariusz Lapinski"</span> <span class="se">\</span>
+  -d data[user_signed_at]<span class="o">=</span><span class="s2">"March 31, 2017"</span> <span class="se">\</span>
+  &gt; result.pdf
+</code></pre>
+<blockquote>
+<p>The above command saves a PDF document to <code class="prettyprint">result.pdf</code>.</p>
+</blockquote>
+
+<p>This endpoint fills in a PDF Template with the data provided. It responds with the binary PDF file so you can store it on your end. PDF Otter won&rsquo;t store any of the data you pass it or the resulting PDF.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST https://www.pdfotter.com/api/v1/pdf_templates/&lt;ID&gt;/fill</code></p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>data</td>
+<td>object</td>
+<td>Data to fill in the template with. If no data is provided, the generated PDF will be the template with empty fields.</td>
+</tr>
+</tbody></table>
+
+<h2 id="update-a-pdf-template">Update a PDF Template</h2>
+<pre class="highlight shell tab-shell"><code>curl -X PUT https://www.pdfotter.com/api/v1/pdf_templates/tem_1c3 <span class="se">\</span>
+  -u test_apikey123: <span class="se">\</span>
+  -d <span class="nv">name</span><span class="o">=</span><span class="s2">"Old Subscription Agreement"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tem_1c3"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Old Subscription Agreement"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"processing_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"completed"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"processing_progress_percentage"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="s2">"page_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user_name"</span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="s2">"page_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user_signature"</span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="s2">"page_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user_signed_at"</span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint updates a PDF Template.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">PUT https://www.pdfotter.com/api/v1/pdf_files/&lt;ID&gt;</code></p>
+
+<h3 id="parameters">Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>PDF Template&rsquo;s name</td>
+</tr>
+</tbody></table>
+
+<h2 id="delete-a-pdf-template">Delete a PDF Template</h2>
+<pre class="highlight shell tab-shell"><code>curl -X DELETE https://www.pdfotter.com/api/v1/pdf_templates/tem_1c3 <span class="se">\</span>
+  -u test_apikey123:
+</code></pre>
+<blockquote>
+<p>The command above returns no content</p>
+</blockquote>
+<pre class="highlight json tab-json"><code></code></pre>
+<p>This endpoint deletes the specified PDF template. If successful, a 204 (no content) response code is returned.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">DELETE https://www.pdfotter.com/api/v1/pdf_templates/&lt;ID&gt;</code></p>
+
+<h3 id="url-parameters">URL Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ID</td>
+<td>ID of the file to delete (required)</td>
 </tr>
 </tbody></table>
 
@@ -300,370 +455,6 @@
 <h3 id="http-request">HTTP Request</h3>
 
 <p><code class="prettyprint">GET https://www.pdfotter.com/api/v1/pdf_templates</code></p>
-
-<h1 id="pdf-files">PDF Files</h1>
-
-<h2 id="create-pdf-file">Create PDF File</h2>
-<pre class="highlight shell tab-shell"><code>curl -X POST https://www.pdfotter.com/api/v1/pdf_files.pdf <span class="se">\</span>
-  -u test_apikey123: <span class="se">\</span>
-  -d <span class="nv">pdf_template</span><span class="o">=</span>tem_1c3 <span class="se">\</span>
-  -d <span class="nv">name</span><span class="o">=</span><span class="s2">"Mariusz Lapinski's Subscription Agreement - Pending"</span> <span class="se">\</span>
-  -d <span class="nv">save_result</span><span class="o">=</span><span class="nb">false</span> <span class="se">\</span>
-  -d data[user_name]<span class="o">=</span><span class="s2">"Mariusz Lapinski"</span> <span class="se">\</span>
-  -d data[user_signature]<span class="o">=</span><span class="s2">"Mariusz Lapinski"</span> <span class="se">\</span>
-  -d data[user_signed_at]<span class="o">=</span><span class="s2">"March 31, 2017"</span> <span class="se">\</span>
-  &gt; tem_1c3_filled_in.pdf
-</code></pre>
-<blockquote>
-<p>The above command saves a PDF document to <code class="prettyprint">tem_1c3_filled_in.pdf</code>. Because <code class="prettyprint">save_result=false</code>, it won&rsquo;t be saved on PDF Otter for later use.</p>
-</blockquote>
-
-<p>This endpoint creates a PDF File - fills in a PDF Template - with the data provided. It responds with the binary PDF file so you can store it on your end. PDF Otter won&rsquo;t store the file if you set the <code class="prettyprint">save_result</code> flag to <code class="prettyprint">false</code>. If you choose to let PDF Otter save the result, it will be available in your dashboard and can be made public to share with your users.</p>
-
-<h3 id="http-request">HTTP Request</h3>
-
-<p><code class="prettyprint">POST https://www.pdfotter.com/api/v1/pdf_files.pdf</code></p>
-
-<h3 id="parameters">Parameters</h3>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>pdf_template</td>
-<td>string</td>
-<td>A template ID (required)</td>
-</tr>
-<tr>
-<td>name</td>
-<td>string</td>
-<td>The file&rsquo;s name (recommended)</td>
-</tr>
-<tr>
-<td>save_result</td>
-<td>boolean</td>
-<td>Tells PDF Otter if it should save the file on its service (default: <code class="prettyprint">true</code>)</td>
-</tr>
-<tr>
-<td>is_public</td>
-<td>boolean</td>
-<td>Whether the file can be viewed using a share URL. This parameter is ignored if save_result is false. (default: <code class="prettyprint">true</code>)</td>
-</tr>
-<tr>
-<td>data</td>
-<td>object</td>
-<td>Data to fill in the template with. If no data is provided, the generated PDF will just be the template.</td>
-</tr>
-</tbody></table>
-
-<h2 id="create-pdf-file-asynchronously">Create PDF File (asynchronously)</h2>
-<pre class="highlight shell tab-shell"><code>curl -X POST https://www.pdfotter.com/api/v1/pdf_files.json <span class="se">\</span>
-  -u test_apikey123: <span class="se">\</span>
-  -d <span class="nv">pdf_template</span><span class="o">=</span>tem_1c3 <span class="se">\</span>
-  -d data[user_name]<span class="o">=</span><span class="s2">"Mariusz Lapinski"</span> <span class="se">\</span>
-  -d data[user_signature]<span class="o">=</span><span class="s2">"Mariusz Lapinski"</span> <span class="se">\</span>
-  -d data[user_signed_at]<span class="o">=</span><span class="s2">"March 31, 2017"</span>
-</code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fil_b2c"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"pdf_template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tem_1c3"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"is_public"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mariusz Lapinski's Subscription Agreement - Pending"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pending"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"urls"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"download"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"share"</span><span class="p">:</span><span class="w">    </span><span class="s2">"https://www.pdfotter.com/fil_b2c/share"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>Filling in and receiving a PDF binary may take a few hundred milliseconds. If you want a faster response from the PDF Otter API, you can fill in a PDF asynchronously. Your PDF template is filled in the same way, except the processing is performed in the background and the result is saved by default. You&rsquo;ll get back a JSON representation of your PDF File.</p>
-
-<h3 id="http-request">HTTP Request</h3>
-
-<p><code class="prettyprint">POST https://www.pdfotter.com/api/v1/pdf_files.json</code></p>
-
-<h3 id="parameters">Parameters</h3>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>pdf_template</td>
-<td>string</td>
-<td>A template ID (required)</td>
-</tr>
-<tr>
-<td>name</td>
-<td>string</td>
-<td>The file&rsquo;s name (recommended)</td>
-</tr>
-<tr>
-<td>is_public</td>
-<td>boolean</td>
-<td>Whether the file can be viewed using a share URL (default: <code class="prettyprint">true</code>)</td>
-</tr>
-<tr>
-<td>data</td>
-<td>object</td>
-<td>Data to fill in the template with. If no data is provided, the generated PDF will just be the template.</td>
-</tr>
-</tbody></table>
-
-<aside class="notice">
-  Despite being created asynchronously, you can still share these PDF files with your users as long as they remain public. This is the purpose of the share URL, which displays the loading status or the PDF once it has been generated. A download url won&rsquo;t be available immediately after creating or updating a file because the file won&rsquo;t be ready for download. The share and download URLs won&rsquo;t be provided if is_public is false.
-</aside>
-
-<h2 id="get-pdf-file">Get PDF File</h2>
-<pre class="highlight shell tab-shell"><code>curl https://www.pdfotter.com/api/v1/pdf_files/fil_b2c <span class="se">\</span>
-  -u test_apikey123:
-</code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fil_b2c"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"pdf_template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tem_1c3"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"is_public"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mariusz Lapinski's Subscription Agreement - Pending"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"completed"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"urls"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"download"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.pdfotter.com/fil_b2c/download?v=1"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"share"</span><span class="p">:</span><span class="w">    </span><span class="s2">"https://www.pdfotter.com/fil_b2c/share"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>This endpoint retrieves a single PDF File’s details.</p>
-
-<h3 id="http-request">HTTP Request</h3>
-
-<p><code class="prettyprint">GET https://www.pdfotter.com/api/v1/pdf_files/&lt;ID&gt;</code></p>
-
-<h3 id="url-parameters">URL Parameters</h3>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>ID</td>
-<td>The ID of the file to retrieve (required)</td>
-</tr>
-</tbody></table>
-
-<aside class="notice">
-  The download URL is only available if the file is public and its status is <code>completed</code>. Possible statuses are <code>pending</code>, <code>processing</code>, <code>completed</code>, and <code>failed</code>.
-</aside>
-
-<h2 id="download-pdf-file">Download PDF File</h2>
-<pre class="highlight shell tab-shell"><code>curl -L https://www.pdfotter.com/api/v1/pdf_files/fil_b2c/download <span class="se">\</span>
-  -u test_apikey123: <span class="se">\</span>
-  &gt; fil_b2c_filled_in.pdf
-</code></pre>
-<blockquote>
-<p>The above command saves the returned binary PDF as <code class="prettyprint">fil_b2c_filled_in.pdf</code></p>
-</blockquote>
-
-<p>This endpoint is for downloading the filled in PDF file. If the file has not finished processing, a 400 error will be returned.</p>
-
-<h3 id="http-request">HTTP Request</h3>
-
-<p><code class="prettyprint">GET https://www.pdfotter.com/api/v1/pdf_files/&lt;ID&gt;/download</code></p>
-
-<h3 id="url-parameters">URL Parameters</h3>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>ID</td>
-<td>The ID of the file to download (required)</td>
-</tr>
-</tbody></table>
-
-<aside class="notice">
-Make sure that the HTTP client you use to make this request follows redirects (like the -L flag in curl). This endpoint redirects the request to a signed S3 URL, which expires after 60 seconds.
-</aside>
-
-<h2 id="update-pdf-file">Update PDF File</h2>
-<pre class="highlight shell tab-shell"><code>curl -X PUT https://www.pdfotter.com/api/v1/pdf_files/fil_b2c <span class="se">\</span>
-  -u test_apikey123: <span class="se">\</span>
-  -d <span class="nv">name</span><span class="o">=</span><span class="s2">"Mariusz Lapinski's Subscription Agreement - Complete"</span> <span class="se">\</span>
-  -d data[user_name]<span class="o">=</span><span class="s2">"Mariusz Lapinski"</span> <span class="se">\</span>
-  -d data[user_signature]<span class="o">=</span><span class="s2">"Mariusz Lapinski"</span> <span class="se">\</span>
-  -d data[user_signed_at]<span class="o">=</span><span class="s2">"March 31, 2017"</span> <span class="se">\</span>
-  -d data[admin_name]<span class="o">=</span><span class="s2">"Harry Otter"</span> <span class="se">\</span>
-  -d data[admin_signature]<span class="o">=</span><span class="s2">"Harry Otter"</span> <span class="se">\</span>
-  -d data[admin_signed_at]<span class="o">=</span><span class="s2">"April 1, 2017"</span>
-</code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fil_b2c"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"pdf_template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tem_1c3"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"is_public"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mariusz Lapinski's Subscription Agreement - Complete"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pending"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"urls"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"download"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"share"</span><span class="p">:</span><span class="w">    </span><span class="s2">"https://www.pdfotter.com/fil_b2c/share"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>This endpoint updates a PDF File and generates a new PDF with the data provided. Data from the previous version won&rsquo;t be carried over to the new one, so you need to provide data for every field even if the field values haven&rsquo;t changed.</p>
-
-<h3 id="http-request">HTTP Request</h3>
-
-<p><code class="prettyprint">PUT https://www.pdfotter.com/api/v1/pdf_files/&lt;ID&gt;</code></p>
-
-<h3 id="parameters">Parameters</h3>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>ID</td>
-<td>string</td>
-<td>A file ID (required)</td>
-</tr>
-<tr>
-<td>name</td>
-<td>string</td>
-<td>Updates the name given to this file (optional)</td>
-</tr>
-<tr>
-<td>is_public</td>
-<td>boolean</td>
-<td>Whether the file can be viewed using a share URL</td>
-</tr>
-<tr>
-<td>data</td>
-<td>object</td>
-<td>Data to fill in your template with. If no data is provided, an empty template will be created.</td>
-</tr>
-</tbody></table>
-
-<aside class="notice">
-  Updating a file increments the version number.
-</aside>
-
-<h2 id="delete-pdf-file">Delete PDF File</h2>
-<pre class="highlight shell tab-shell"><code>curl -X DELETE https://www.pdfotter.com/api/v1/pdf_files/fil_1c3 <span class="se">\</span>
-  -u test_apikey123:
-</code></pre>
-<blockquote>
-<p>The command above returns no content</p>
-</blockquote>
-<pre class="highlight json tab-json"><code></code></pre>
-<p>This endpoint deletes the specified file. If successful, a 204 (no content) response code is returned.</p>
-
-<h3 id="http-request">HTTP Request</h3>
-
-<p><code class="prettyprint">DELETE https://www.pdfotter.com/api/v1/pdf_files/&lt;ID&gt;</code></p>
-
-<h3 id="url-parameters">URL Parameters</h3>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>ID</td>
-<td>ID of the file to delete (required)</td>
-</tr>
-</tbody></table>
-
-<h2 id="get-all-pdf-files">Get All PDF Files</h2>
-<pre class="highlight shell tab-shell"><code>curl -G https://www.pdfotter.com/api/v1/pdf_files <span class="se">\</span>
-  -u test_apikey123: <span class="se">\</span>
-  -d <span class="nv">pdf_template</span><span class="o">=</span>tem_1c3
-</code></pre>
-<blockquote>
-<p>The command above returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fil_1c3"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"pdf_template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tem_1c3"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"is_public"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane Doe's Subscription Agreement"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"completed"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"urls"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"download"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.pdfotter.com/fil_1c3/download?v=1"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"share"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.pdfotter.com/fil_1c3/share"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fil_3f6"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"pdf_template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tem_1c3"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"is_public"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Secret User's Subscription Agreement"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"completed"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"urls"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"download"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"share"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fil_a4c"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"pdf_template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tem_1c3"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"is_public"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John Doe's Subscription Agreement"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"processing"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"urls"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"download"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"share"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.pdfotter.com/fil_a4c/share"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre>
-<p>This endpoint retrieves all files for a given template (represented as JSON, not the PDF documents). If no template ID is provided, an error will be returned.</p>
-
-<h3 id="http-request">HTTP Request</h3>
-
-<p><code class="prettyprint">GET https://www.pdfotter.com/api/v1/pdf_files</code></p>
-
-<h3 id="query-parameters">Query Parameters</h3>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>pdf_template</td>
-<td>A template ID (required)</td>
-</tr>
-</tbody></table>
 
       </div>
       <div class="dark-box">
