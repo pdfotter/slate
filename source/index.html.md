@@ -154,7 +154,7 @@ This endpoint updates a PDF Template.
 
 ### HTTP Request
 
-`PUT https://www.pdfotter.com/api/v1/pdf_files/<ID>`
+`PUT https://www.pdfotter.com/api/v1/pdf_templates/<ID>`
 
 ### Parameters
 
